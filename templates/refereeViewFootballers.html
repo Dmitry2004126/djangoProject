@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Info about employer</title>
+    {% extends "base.html" %}
+    {% load static %}
+</head>
+<body>
+{% block content %}
+    <div  style="justify-content: center; display: flex">
+        <div class="card" style="width: 18rem; margin-bottom: 5px">
+          <img src="{% static 'img/employer.jpg' %}" class="card-img-top" alt="...">
+          <div class="card-body" >
+            <h5 class="card-title">Employer</h5>
+            <p class="card-text">Employer's name: {{ buyer.first_name }}</p>
+            <p class="card-text">Employer's last name: <mark>{{ buyer.last_name }}</mark></p>
+              <p class="card-text">Employer's date of Birth: <i>{{ buyer.date_birth}}</i></p>
+            <p class="card-text">Employer's company experience: <b>{{ buyer.company_experience}}</b></p>
+            <p class="card-text">Employer's email: <i>{{ user.email}}</i></p>
+          </div>
+        </div>
+    </div>
+    <div class="container">
+    {% if projects|length > 0 %}
+         <div class="my-auto d-grip gap-2"></div>
+            <table class="table table-hover">
+              <thead>
+                <tr>
+                  <th scope="col">Number of project</th>
+                  <th scope="col">Worker</th>
+                  <th scope="col">Employer</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody class="table-group-divider">
+              {% for project in projects %}
+                {% if sumGoals >= 15 %}
+                    <tr class="bg-success">
+                {%  elif sumGoals <= 1 %}
+                    {% if sumGoals > 0 %}
+                        <tr class="bg-danger">
+                    {% endif %}
+                {%  else %}
+                    <tr>
+                {%  endif %}
+                  <td>{{ project.number }}</td>
+                  <td>{{ project.seller.first_name }} {{ project.seller.last_name }}</td>
+                  <td>{{ project.buyer.first_name }} {{ project.buyer.last_name }}</td>
+
+                  <td><a href="{%  url 'show_footballer'  project.seller.id_user_id %}" class="btn btn-success">Info about worker</a> </td>
+                </tr>
+              {%  endfor %}
+              </tbody>
+            </table>
+        {%  else %}
+        <div style="text-align: center">
+            <h1>No recent projects.</h1>
+        </div>
+    {% endif %}
+    </div>
+{% endblock %}
+</body>
+</html>
+
+

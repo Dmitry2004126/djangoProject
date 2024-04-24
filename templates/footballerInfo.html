@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Info about employee</title>
+    {% extends "base.html" %}
+    {% load static %}
+</head>
+<body>
+{% block content %}
+    <div  style="justify-content: center; display: flex">
+        <div class="card" style="width: 18rem; margin-bottom: 5px">
+          <img src="{% static 'img/employee.webp' %}" class="card-img-top" alt="...">
+          <div class="card-body" >
+            <h5 class="card-title">Employee</h5>
+            <p class="card-text">Employee's name: {{ seller.first_name }}</p>
+            <p class="card-text">Employee's last name: <mark>{{ seller.last_name }}</mark></p>
+            <p class="card-text">Employee's date of Birth: <i>{{ seller.date_birth}}</i></p>
+            <p class="card-text">Employee's experience: <b>{{ seller.experience}}</b></p>
+            <p class="card-text">Employee's email: <i>{{ seller.id_user.email}}</i></p>
+          </div>
+        </div>
+    </div>
+    {% if request == 1 %}
+        <a href="{% url 'create_game' seller.id_user_id %}" type="button" class="btn btn-primary">Add Project</a>
+    {% endif %}
+    <div>
+        {% if projects|length > 0 %}
+            <table class="table table-hover table-striped">
+              <thead>
+                <tr>
+                  <th scope="col">Number</th>
+                  <th scope="col">Name of the project</th>
+                  <th scope="col">Employer</th>
+                  <th scope="col">Start date</th>
+                </tr>
+              </thead>
+              <tbody class="table-group-divider">
+              {% for project in projects %}
+                  <td>{{ project.number }}</td>
+                  <td>{{ project.project_name }}</td>
+                  <td>{{ project.buyer.first_name }} {{ project.buyer.last_name }}</td>
+                  <td>{{ project.date_start }}</td>
+                  <td>
+                    {% if request == 1 %}
+                        <a href="{% url 'delete_game'  seller.id_user_id project.number %}" type="button" class="btn btn-danger">Delete</a>
+                    {% endif %}
+                  </td>
+                </tr>
+              {% endfor %}
+              </tbody>
+            </table>
+        {% endif %}
+    </div>
+    {% if request == 1 %}
+        <div>
+            <h3>Click it to go back -> <a href= "{% url 'info'  %}" class="btn btn-info" type="submit">Back</a></h3>
+        </div>
+    {% endif %}
+{% endblock %}
+</body>
+</html>

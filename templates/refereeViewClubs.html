@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Info about referee</title>
+    {% extends "base.html" %}
+</head>
+<body>
+{% block content %}
+<div class="container">
+        <div style="display: grid; grid-template-columns: repeat(auto-fill, 300px); justify-content: space-between; flex-flow: wrap">
+            {% for club, goal, number in clubs %}
+                <div class="card" style=" width:250px; margin-bottom: 5px">
+                  <div class="card-body">
+                    <h5 class="card-title">Team</h5>
+                    <p class="card-text">{{ club }}.</p>
+                    <p class="card-text">Goals: {{ goal }}</p>
+                    <p class="card-text">Number of players: {{ number }}</p>
+                    <a href="{% url 'footballerFromGroup' name_division club.id %}" class="btn btn-primary" type="button">Go!</a>
+                  </div>
+                </div>
+            {% endfor %}
+        </div>
+</div>
+<div>
+    <h3>Click it to go back -> <a href= "{% url 'info' %}" class="btn btn-info" type="submit">Back</a></h3>
+</div>
+{% endblock %}
+</body>
+</html>

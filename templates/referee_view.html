@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Info about footballer</title>
+    {% extends "base.html" %}
+    {% load static %}
+</head>
+<body>
+{% block content %}
+    <div  style="justify-content: center; display: flex">
+        <div class="card" style="width: 18rem; margin-bottom: 5px">
+          <img src="{% static 'img/football1.jpg' %}" class="card-img-top" alt="...">
+          <div class="card-body" >
+            <h5 class="card-title"> Football player</h5>
+            <p class="card-text">Footballer's name: {{ footballer.first_name }}</p>
+            <p class="card-text">Footballer's last name: <mark>{{ footballer.last_name }}</mark></p>
+            <p class="card-text">Footballer's Position: <b>{{ footballer.Position.name}}</b></p>
+            <p class="card-text">Footballer's date of Birth: <i>{{ footballer.date_birth}}</i></p>
+          </div>
+        </div>
+    </div>
+    {% if request == 1 %}
+        <a href="{% url 'create_game' name_division id_club footballer.id_user_id %}" type="button" class="btn btn-primary">Add Game</a>
+    {% endif %}
+    <div>
+        {% if games|length > 0 %}
+            <table class="table table-hover table-striped">
+              <thead>
+                <tr>
+                  <th scope="col">Game</th>
+                  <th scope="col">Footballer</th>
+                  <th scope="col">Referee</th>
+                  <th scope="col">Goals</th>
+                </tr>
+              </thead>
+              <tbody class="table-group-divider">
+              {% for game in games %}
+                {% if game.goals < 1 %}
+                    <tr class="table-danger">
+                {% elif game.goals >= 3 %}
+                    <tr class="table-success">
+                {% else %}
+                    <tr>
+                {% endif %}
+                  <th scope="row">{{ game.number }}</th>
+                  <td>{{ game.footballer }}</td>
+                  <td>{{ game.division.referee }}</td>
+                  <td>{{ game.goals}}</td>
+                  <td>
+                    {% if request == 1 %}
+                        <a href="{% url 'delete_game' name_division id_club footballer.id_user_id game.number %}" type="button" class="btn btn-danger">Delete</a>
+                    {% endif %}
+                  </td>
+                </tr>
+              {% endfor %}
+              </tbody>
+            </table>
+        {% endif %}
+    </div>
+    {% if request == 1 %}
+        <div>
+            <h3>Click it to go back -> <a href= "{% url 'footballerFromGroup' name_division footballer.club.id %}" class="btn btn-info" type="submit">Back</a></h3>
+        </div>
+    {% endif %}
+{% endblock %}
+</body>
+</html>
